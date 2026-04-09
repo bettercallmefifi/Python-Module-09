@@ -107,12 +107,7 @@ def main():
         for m in mission.crew:
             print(f"- {m.name} ({m.rank.value}) - {m.specialization}")
     except ValidationError as e:
-        # print only the first validation message
-        errs = e.errors()
-        if errs:
-            print(errs[0].get("msg"))
-        else:
-            print(str(e))
+        print(e.errors()[0]['msg'])
     except Exception as e:
         print(e)
 
@@ -137,12 +132,7 @@ def main():
             budget_millions=10.0
         )
     except ValidationError as e:
-        # print only the first validation message
-        errs = e.errors()
-        if errs:
-            print(errs[0].get("msg"))
-        else:
-            print(str(e))
+        print(e.errors()[0]['msg'])
     except Exception as e:
         print(e)
 
