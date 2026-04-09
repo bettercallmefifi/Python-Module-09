@@ -14,8 +14,9 @@ class SpaceStation(BaseModel):
     notes: Optional[str] = Field(None, max_length=200)
 
 
-def main():
+def main() -> None:
     print("Space Station Data Validation")
+    print("=" * 41)
     try:
         valid_station = SpaceStation(
             station_id="ISS001",
@@ -36,8 +37,9 @@ def main():
                 'Operational' if valid_station.is_operational else 'Down'}")
     except Exception as e:
         print(f"Error: {e}")
-
-    print("\nExpected validation error:")
+    print()
+    print("=" * 41)
+    print("Expected validation error:")
     try:
         SpaceStation(
             station_id="ISS001",
