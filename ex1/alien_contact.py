@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
 from enum import Enum
 from typing import Optional
@@ -30,11 +30,10 @@ class AlienContact(BaseModel):
         if self.contact_type == ContactType.physical and not self.is_verified:
             raise ValueError("Physical contact reports must be verified")
 
-        if self.contact_type == (
-            ContactType.telepathic and self.witness_count < 3
-        ):
-            raise ValueError(
-                "Telepathic contact requires at least 3 witnesses")
+        # telepathic contact requires at least 3 witnesses
+        if (self.contact_type == ContactType.telepathic
+                and self.witness_count < 3):
+            raise ValueError("Telepathic contact requires at least 3 witnesses")
 
         if self.signal_strength > 7.0 and not self.message_received:
             raise ValueError(
@@ -65,9 +64,16 @@ def main():
         print(f"Duration: {valid.duration_minutes} minutes")
         print(f"Witnesses: {valid.witness_count}")
         print(f"Message: '{valid.message_received}'")
+    except ValidationError as e:
+        errs = e.errors()
+        if errs:
+            print(errs[0].get("msg"))
+        else:
+            print(str(e))
     except Exception as e:
         print(e)
 
+    print()
     print("=" * 38)
     print("Expected validation error:")
     try:
@@ -80,6 +86,12 @@ def main():
             duration_minutes=10,
             witness_count=1
         )
+    except ValidationError as e:
+        errs = e.errors()
+        if errs:
+            print(errs[0].get("msg"))
+        else:
+            print(str(e))
     except Exception as e:
         print(e)
 
