@@ -65,11 +65,7 @@ def main():
         print(f"Witnesses: {valid.witness_count}")
         print(f"Message: '{valid.message_received}'")
     except ValidationError as e:
-        errs = e.errors()
-        if errs:
-            print(errs[0].get("msg"))
-        else:
-            print(str(e))
+        print(e.errors()[0]['msg'])
     except Exception as e:
         print(e)
 
@@ -87,11 +83,7 @@ def main():
             witness_count=1
         )
     except ValidationError as e:
-        errs = e.errors()
-        if errs:
-            print(errs[0].get("msg"))
-        else:
-            print(str(e))
+        print(e.errors()[0]['msg'])
     except Exception as e:
         print(e)
 
