@@ -33,7 +33,9 @@ class AlienContact(BaseModel):
         # telepathic contact requires at least 3 witnesses
         if (self.contact_type == ContactType.telepathic
                 and self.witness_count < 3):
-            raise ValueError("Telepathic contact requires at least 3 witnesses")
+            raise ValueError(
+                "Telepathic contact requires at least 3 witnesses"
+                )
 
         if self.signal_strength > 7.0 and not self.message_received:
             raise ValueError(
