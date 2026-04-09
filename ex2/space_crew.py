@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
 from enum import Enum
 from typing import List
@@ -106,6 +106,13 @@ def main():
         print("Crew members:")
         for m in mission.crew:
             print(f"- {m.name} ({m.rank.value}) - {m.specialization}")
+    except ValidationError as e:
+        # print only the first validation message
+        errs = e.errors()
+        if errs:
+            print(errs[0].get("msg"))
+        else:
+            print(str(e))
     except Exception as e:
         print(e)
 
@@ -129,6 +136,13 @@ def main():
             crew=bad_crew,
             budget_millions=10.0
         )
+    except ValidationError as e:
+        # print only the first validation message
+        errs = e.errors()
+        if errs:
+            print(errs[0].get("msg"))
+        else:
+            print(str(e))
     except Exception as e:
         print(e)
 
